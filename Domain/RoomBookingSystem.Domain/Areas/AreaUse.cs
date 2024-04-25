@@ -10,7 +10,7 @@ public class AreaUse
     public string? Reference { get; set; }
     public string? ExternalReference { get; set; }
 
-    public Area Area { get; set; }
+    public Area? Area { get; set; }
     public Categories.Category? Category { get; set; }
     public Categories.SubCategory? SubCategory { get; set; }
 }
