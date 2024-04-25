@@ -286,7 +286,7 @@ CREATE TABLE Client (
 CREATE TABLE Booking (
     ID UNIQUEIDENTIFIER NOT NULL 
         CONSTRAINT PK_Booking PRIMARY KEY,
-    Reference NVARCHAR(200)
+    Reference NVARCHAR(200),
     RequestedStartDate DATETIMEOFFSET NOT NULL,
     RequestedEndDate DATETIMEOFFSET NOT NULL,
     RequestContactId UNIQUEIDENTIFIER NOT NULL,
@@ -370,7 +370,7 @@ CREATE TABLE BookingCancellation (
     ApprovedByContactId UNIQUEIDENTIFIER,
     ApprovalDate DATETIMEOFFSET NULL,
     FOREIGN KEY (BookingId) REFERENCES Booking(ID),
-    FOREIGN KEY (CancelledBy) REFERENCES Contact(ID)
+    FOREIGN KEY (CancelledBy) REFERENCES Contact(ID),
     FOREIGN KEY (ApprovedByContactId) REFERENCES Contact(ID)
 );
 
