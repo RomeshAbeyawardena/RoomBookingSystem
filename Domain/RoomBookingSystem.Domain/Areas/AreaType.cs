@@ -1,4 +1,4 @@
-﻿namespace RoomBookingSystem.Domain.AreaTypes;
+﻿namespace RoomBookingSystem.Domain.Areas;
 
 public class AreaType
 {
