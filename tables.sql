@@ -273,9 +273,25 @@ CREATE TABLE BlockSubUse (
     FOREIGN KEY (BlockUseId) REFERENCES BlockUse(ID)
 );
 
+CREATE TABLE Booking (
+    ID UNIQUEIDENTIFIER NOT NULL 
+        CONSTRAINT PK_Booking PRIMARY KEY,
+    RequestedStartDate DATETIMEOFFSET NOT NULL,
+    RequestedEndDate DATETIMEOFFSET NOT NULL,
+    RequestContactId UNIQUEIDENTIFIER NOT NULL,
+    RequestDate DATETIMEOFFSET NOT NULL,
+    ApprovalDate DATETIMEOFFSET NULL,
+    ApprovedByContactId UNIQUEIDENTIFIER NULL,
+    Details NVARCHAR(MAX) NULL,
+    FOREIGN KEY (RequestContactId) REFERENCES Contact(ID),
+    FOREIGN KEY (ApprovedByContactId) REFERENCES Contact(ID)
+);
+
+
 CREATE TABLE SiteBooking (
     ID UNIQUEIDENTIFIER NOT NULL 
         CONSTRAINT PK_SiteBooking PRIMARY KEY,
+    BookingId UNIQUEIDENTIFIER NOT NULL,
     SiteId UNIQUEIDENTIFIER,
     RequestedStartDate DATETIMEOFFSET NOT NULL,
     RequestedEndDate DATETIMEOFFSET NOT NULL,
@@ -293,6 +309,7 @@ CREATE TABLE SiteBooking (
 CREATE TABLE BlockBooking (
     ID UNIQUEIDENTIFIER NOT NULL 
         CONSTRAINT PK_BlockBooking PRIMARY KEY,
+    BookingId UNIQUEIDENTIFIER NOT NULL,
     BlockId UNIQUEIDENTIFIER NOT NULL,
     RequestedStartDate DATETIMEOFFSET NOT NULL,
     RequestedEndDate DATETIMEOFFSET NOT NULL,
@@ -310,6 +327,7 @@ CREATE TABLE BlockBooking (
 CREATE TABLE AreaBooking (
     ID UNIQUEIDENTIFIER NOT NULL 
         CONSTRAINT PK_AreaBooking PRIMARY KEY,
+    BookingId UNIQUEIDENTIFIER NOT NULL,
     AreaId UNIQUEIDENTIFIER NOT NULL,
     RequestedStartDate DATETIMEOFFSET NOT NULL,
     RequestedEndDate DATETIMEOFFSET NOT NULL,
@@ -323,6 +341,21 @@ CREATE TABLE AreaBooking (
     FOREIGN KEY (RequestContactId) REFERENCES Contact(ID),
     FOREIGN KEY (ApprovedByContactId) REFERENCES Contact(ID)
 );
+
+CREATE TABLE BookingCancellation (
+    ID UNIQUEIDENTIFIER NOT NULL 
+        CONSTRAINT PK_BookingCancellation PRIMARY KEY,
+    BookingId UNIQUEIDENTIFIER NOT NULL,
+    CancellationDate DATETIMEOFFSET NOT NULL,
+    CancellationReason NVARCHAR(255),
+    CancelledBy UNIQUEIDENTIFIER, 
+    ApprovedByContactId UNIQUEIDENTIFIER,
+    ApprovalDate DATETIMEOFFSET NULL,
+    FOREIGN KEY (BookingId) REFERENCES Booking(ID),
+    FOREIGN KEY (CancelledBy) REFERENCES Contact(ID)
+    FOREIGN KEY (ApprovedByContactId) REFERENCES Contact(ID)
+);
+
 
 CREATE TABLE WorkNotice (
     ID UNIQUEIDENTIFIER NOT NULL 
@@ -409,4 +442,30 @@ CREATE TABLE SiteWorkNotice (
     WorkNoticeId UNIQUEIDENTIFIER NOT NULL,
     FOREIGN KEY (SiteId) REFERENCES Site(ID),
     FOREIGN KEY (WorkNoticeId) REFERENCES WorkNotice(ID)
+);
+
+CREATE TABLE BookingReassignment (
+    ID UNIQUEIDENTIFIER NOT NULL 
+        CONSTRAINT PK_BookingReassignment PRIMARY KEY,
+    Reason NVARCHAR(255) NOT NULL,
+    BookingId UNIQUEIDENTIFIER NOT NULL,
+    ReassignmentBookingId UNIQUEIDENTIFIER NOT NULL,
+    RequestedDate DATETIMEOFFSET NOT NULL,
+    ApprovalDate DATETIMEOFFSET NULL,
+    ApprovalContactId UNIQUEIDENTIFIER NULL,
+    FOREIGN KEY (BookingId) REFERENCES Booking(ID),
+    FOREIGN KEY (ReassignmentBookingId) REFERENCES Booking(ID),
+    FOREIGN KEY (ApprovalContactId) REFERENCES Contact(ID)
+);
+
+CREATE TABLE BookingReassignmentReconsideration (
+    ID UNIQUEIDENTIFIER NOT NULL 
+        CONSTRAINT PK_BookingReassignmentReconsideration PRIMARY KEY,
+    BookingReassignmentID UNIQUEIDENTIFIER NOT NULL,
+    Reason NVARCHAR(255) NOT NULL,
+    RequestedDate DATETIMEOFFSET NOT NULL,
+    ApprovalDate DATETIMEOFFSET NULL,
+    ApprovalContactId UNIQUEIDENTIFIER NULL,
+    FOREIGN KEY (BookingReassignmentID) REFERENCES BookingReassignment(ID),
+    FOREIGN KEY (ApprovalContactId) REFERENCES Contact(ID)
 );
