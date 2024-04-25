@@ -273,36 +273,60 @@ CREATE TABLE BlockSubUse (
     FOREIGN KEY (BlockUseId) REFERENCES BlockUse(ID)
 );
 
+CREATE TABLE Client (
+    ID UNIQUEIDENTIFIER NOT NULL
+        CONSTRAINT PK_Client PRIMARY KEY,
+    Reference NVARCHAR(100) NOT NULL,
+    Name NVARCHAR(100) NOT NULL,
+    ExternalReference NVARCHAR(100),
+    PrimaryAddressId UNIQUEIDENTIFIER,
+    FOREIGN KEY (PrimaryAddressId) REFERENCES Address(ID)
+);
+
 CREATE TABLE Booking (
     ID UNIQUEIDENTIFIER NOT NULL 
         CONSTRAINT PK_Booking PRIMARY KEY,
+    Reference NVARCHAR(200)
     RequestedStartDate DATETIMEOFFSET NOT NULL,
     RequestedEndDate DATETIMEOFFSET NOT NULL,
     RequestContactId UNIQUEIDENTIFIER NOT NULL,
+    ClientId UNIQUEIDENTIFIER NULL,
     RequestDate DATETIMEOFFSET NOT NULL,
     ApprovalDate DATETIMEOFFSET NULL,
     ApprovedByContactId UNIQUEIDENTIFIER NULL,
     Details NVARCHAR(MAX) NULL,
     FOREIGN KEY (RequestContactId) REFERENCES Contact(ID),
-    FOREIGN KEY (ApprovedByContactId) REFERENCES Contact(ID)
+    FOREIGN KEY (ApprovedByContactId) REFERENCES Contact(ID),
+    FOREIGN KEY (ClientId) REFERENCES Client(ID)
 );
 
+
+CREATE TABLE BookingCancellation (
+    ID UNIQUEIDENTIFIER NOT NULL 
+        CONSTRAINT PK_BookingCancellation PRIMARY KEY,
+    BookingId UNIQUEIDENTIFIER NOT NULL,
+    CancellationDate DATETIMEOFFSET NOT NULL,
+    CancellationReason NVARCHAR(255),
+    CancelledBy UNIQUEIDENTIFIER,
+    ApprovedByContactId UNIQUEIDENTIFIER,
+    ApprovalDate DATETIMEOFFSET NULL,
+    FOREIGN KEY (BookingId) REFERENCES Booking(ID),
+    FOREIGN KEY (CancelledBy) REFERENCES Contact(ID),
+    FOREIGN KEY (ApprovedByContactId) REFERENCES Contact(ID)
+);
 
 CREATE TABLE SiteBooking (
     ID UNIQUEIDENTIFIER NOT NULL 
         CONSTRAINT PK_SiteBooking PRIMARY KEY,
     BookingId UNIQUEIDENTIFIER NOT NULL,
     SiteId UNIQUEIDENTIFIER,
-    RequestedStartDate DATETIMEOFFSET NOT NULL,
-    RequestedEndDate DATETIMEOFFSET NOT NULL,
-    RequestContactId UNIQUEIDENTIFIER NOT NULL,
     RequestDate DATETIMEOFFSET NOT NULL,
     ApprovalDate DATETIMEOFFSET NULL,
     ApprovedByContactId UNIQUEIDENTIFIER,
     Notes NVARCHAR(255) NULL,
     FulfillmentDate DATETIMEOFFSETTIMEOFFSET NULL,
+    FOREIGN KEY (BookingId) REFERENCES Booking(ID),
     FOREIGN KEY (SiteId) REFERENCES Site(ID),
-    FOREIGN KEY (RequestContactId) REFERENCES Contact(ID),
     FOREIGN KEY (ApprovedByContactId) REFERENCES Contact(ID)
 );
 
@@ -311,16 +335,13 @@ CREATE TABLE BlockBooking (
         CONSTRAINT PK_BlockBooking PRIMARY KEY,
     BookingId UNIQUEIDENTIFIER NOT NULL,
     BlockId UNIQUEIDENTIFIER NOT NULL,
-    RequestedStartDate DATETIMEOFFSET NOT NULL,
-    RequestedEndDate DATETIMEOFFSET NOT NULL,
-    RequestContactId UNIQUEIDENTIFIER NOT NULL,
     RequestDate DATETIMEOFFSET NOT NULL,
     ApprovalDate DATETIMEOFFSET NULL,
     ApprovedByContactId UNIQUEIDENTIFIER,
     Notes NVARCHAR(255) NULL,
     FulfillmentDate DATETIMEOFFSETTIMEOFFSET NULL,
+     FOREIGN KEY (BookingId) REFERENCES Booking(ID),
     FOREIGN KEY (BlockId) REFERENCES Block(ID),
-    FOREIGN KEY (RequestContactId) REFERENCES Contact(ID),
     FOREIGN KEY (ApprovedByContactId) REFERENCES Contact(ID)
 );
 
@@ -329,16 +350,13 @@ CREATE TABLE AreaBooking (
         CONSTRAINT PK_AreaBooking PRIMARY KEY,
     BookingId UNIQUEIDENTIFIER NOT NULL,
     AreaId UNIQUEIDENTIFIER NOT NULL,
-    RequestedStartDate DATETIMEOFFSET NOT NULL,
-    RequestedEndDate DATETIMEOFFSET NOT NULL,
-    RequestContactId UNIQUEIDENTIFIER NOT NULL,
     RequestDate DATETIMEOFFSET NOT NULL,
     ApprovedByContactId UNIQUEIDENTIFIER,
     ApprovalDate DATETIMEOFFSET NULL,
     Notes NVARCHAR(255) NULL,
     FulfillmentDate DATETIMEOFFSETTIMEOFFSET NULL,
+    FOREIGN KEY (BookingId) REFERENCES Booking(ID),
     FOREIGN KEY (AreaId) REFERENCES Area(ID),
-    FOREIGN KEY (RequestContactId) REFERENCES Contact(ID),
     FOREIGN KEY (ApprovedByContactId) REFERENCES Contact(ID)
 );
 
@@ -469,3 +487,43 @@ CREATE TABLE BookingReassignmentReconsideration (
     FOREIGN KEY (BookingReassignmentID) REFERENCES BookingReassignment(ID),
     FOREIGN KEY (ApprovalContactId) REFERENCES Contact(ID)
 );
+
+CREATE TABLE Package (
+    ID UNIQUEIDENTIFIER NOT NULL
+        CONSTRAINT PK_Package PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(255)
+);
+
+CREATE TABLE PackageClientFee (
+    ID UNIQUEIDENTIFIER NOT NULL
+        CONSTRAINT PK_PackageClientFee PRIMARY KEY,
+    PackageId UNIQUEIDENTIFIER NOT NULL,
+    ClientId UNIQUEIDENTIFIER NOT NULL,
+    DiscountRate FLOAT NOT NULL,  -- e.g., 0.25 for 25% discount, 1 for 100% discount
+    Fee DECIMAL(18, 2) NOT NULL,
+    NumberOfBookingsPerTerm INT,
+    IsGivenPriority BIT NOT NULL,
+    ContractTerms NVARCHAR(2000),
+    FOREIGN KEY (PackageId) REFERENCES Package(ID),
+    FOREIGN KEY (ClientId) REFERENCES Client(ID)
+);
+
+CREATE TABLE ClientBooking (
+    ID UNIQUEIDENTIFIER NOT NULL
+        CONSTRAINT PK_ClientBookingCost PRIMARY KEY,
+    PackageId UNIQUEIDENTIFIER NULL,  -- Optional: relates to Package if the booking is under a specific package
+    BookingId UNIQUEIDENTIFIER NOT NULL,
+    Deposit DECIMAL NULL,
+    Cost DECIMAL(18, 2) NOT NULL,
+    IsApproved BIT NOT NULL,
+    IsInvoiced BIT NOT NULL,
+    IsProRota BIT NOT NULL,
+    IsManaged BIT NOT NULL,
+    RequestDate DATETIMEOFFSET NOT NULL,
+    ApprovalDate DATETIMEOFFSET NULL,
+    AdditionalDetails NVARCHAR(1000),
+    FOREIGN KEY (PackageId) REFERENCES Package(ID),
+    FOREIGN KEY (BookingId) REFERENCES Booking(ID)
+);
+
