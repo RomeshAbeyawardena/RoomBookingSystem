@@ -495,14 +495,15 @@ CREATE TABLE Package (
     Description NVARCHAR(255)
 );
 
-CREATE TABLE PackageClientFee (
+CREATE TABLE PackageClient (
     ID UNIQUEIDENTIFIER NOT NULL
         CONSTRAINT PK_PackageClientFee PRIMARY KEY,
     PackageId UNIQUEIDENTIFIER NOT NULL,
     ClientId UNIQUEIDENTIFIER NOT NULL,
     DiscountRate FLOAT NOT NULL,  -- e.g., 0.25 for 25% discount, 1 for 100% discount
-    Fee DECIMAL(18, 2) NOT NULL,
-    NumberOfBookingsPerTerm INT,
+    Fee DECIMAL(18, 6) NOT NULL,
+    RenewalDate DATETIMEOFFSET NULL, -- Date when the package needs to be renewed can be null if the package does not require renewal
+    MaximumBookingsPerTerm INT,
     IsGivenPriority BIT NOT NULL,
     ContractTerms NVARCHAR(2000),
     FOREIGN KEY (PackageId) REFERENCES Package(ID),
@@ -527,3 +528,65 @@ CREATE TABLE ClientBooking (
     FOREIGN KEY (BookingId) REFERENCES Booking(ID)
 );
 
+CREATE TABLE Classification (
+    ID UNIQUEIDENTIFIER NOT NULL
+        CONSTRAINT PK_Classification PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    DisplayName NVARCHAR(100) NOT NULL,
+    ParentClassificationId UNIQUEIDENTIFIER NULL,
+    FOREIGN KEY (ParentClassificationId) REFERENCES Classification(ID)
+);
+
+
+CREATE TABLE Supplier (
+    ID UNIQUEIDENTIFIER NOT NULL
+        CONSTRAINT PK_Supplier PRIMARY KEY,
+    Reference NVARCHAR(100) NOT NULL,
+    Name NVARCHAR(100) NOT NULL,
+    ExternalReference NVARCHAR(100),
+    CostCode NVARCHAR(100)  -- External reference to a payment system
+);
+
+
+CREATE TABLE Equipment (
+    ID UNIQUEIDENTIFIER NOT NULL
+        CONSTRAINT PK_Equipment PRIMARY KEY,
+    Reference NVARCHAR(100) NOT NULL,
+    Name NVARCHAR(100) NOT NULL,
+    Description NVARCHAR(255),
+    Barcode NVARCHAR(100),
+    SerialNumber NVARCHAR(100),
+    ClassificationId UNIQUEIDENTIFIER NOT NULL,
+    Make NVARCHAR(100),
+    Model NVARCHAR(100),
+    IsMobile BIT NOT NULL,  -- Indicates if the equipment is easily movable
+    CostCode NVARCHAR(100),
+    IsPurchased BIT NOT NULL,
+    PurchasedDate DATETIMEOFFSET NULL,
+    LastInspectionDate DATETIMEOFFSET NULL,
+    WarrantyEndDate DATETIMEOFFSET NULL,
+    SupplierId UNIQUEIDENTIFIER NOT NULL,
+    WarrantySupplierId UNIQUEIDENTIFIER NULL,
+    FOREIGN KEY (ClassificationId) REFERENCES Classification(ID),
+    FOREIGN KEY (SupplierId) REFERENCES Supplier(ID),
+    FOREIGN KEY (WarrantySupplierId) REFERENCES Supplier(ID)
+);
+
+CREATE TABLE EquipmentLocation (
+    ID UNIQUEIDENTIFIER NOT NULL
+        CONSTRAINT PK_EquipmentLocation PRIMARY KEY,
+    PreviousEquipmentLocationId UNIQUEIDENTIFIER NULL,
+    Reference NVARCHAR(100) NOT NULL,
+    EquipmentId UNIQUEIDENTIFIER NOT NULL,
+    SiteId UNIQUEIDENTIFIER NULL,
+    BlockId UNIQUEIDENTIFIER NULL,
+    AreaId UNIQUEIDENTIFIER NULL,
+    IsLocated BIT NOT NULL,
+    Created DATETIMEOFFSET NOT NULL,
+    Verified DATETIMEOFFSET NULL,
+    FOREIGN KEY (PreviousEquipmentLocationId) REFERENCES EquipmentLocation(ID),
+    FOREIGN KEY (EquipmentId) REFERENCES Equipment(ID),
+    FOREIGN KEY (SiteId) REFERENCES Site(ID),
+    FOREIGN KEY (BlockId) REFERENCES Block(ID),
+    FOREIGN KEY (AreaId) REFERENCES Area(ID)
+);
