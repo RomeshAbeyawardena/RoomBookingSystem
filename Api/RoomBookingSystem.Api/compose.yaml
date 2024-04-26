@@ -18,7 +18,7 @@ services:
       - db
     
   db:
-    image: mcr.microsoft.com/mssql/server:22-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       SA_PASSWORD_FILE: /run/secrets/sa_password
       ACCEPT_EULA: "Y"
