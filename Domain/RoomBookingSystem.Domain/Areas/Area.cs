@@ -12,4 +12,7 @@ public class Area
     public double? AreaSize { get; set; }
     public Guid AreaTypeId { get; set; }
     public Guid BlockId { get; set; }
+
+    public virtual AreaType? AreaType { get; set; }
+    public virtual Blocks.Block? Block { get; set; }
 }

@@ -8,7 +8,7 @@ namespace RoomBookingSystem.Domain.Areas
         public Guid AreaId { get; set; }
         public Guid WorkNoticeId { get; set; }
         
-         public Area? Area { get; set; }
-         public WorkNotices.WorkNotice? WorkNotice { get; set; }
+         public virtual Area? Area { get; set; }
+         public virtual WorkNotices.WorkNotice? WorkNotice { get; set; }
     }
 }

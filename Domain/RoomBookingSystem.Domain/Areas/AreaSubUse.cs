@@ -13,8 +13,8 @@ public class AreaSubUse
     public string? Reference { get; set; }
     public string? ExternalReference { get; set; }
 
-    public Area? Area { get; set; }
-    public Category? Category { get; set; }
-    public SubCategory? SubCategory { get; set; }
-    public AreaUse? AreaUse { get; set; }
+    public virtual Area? Area { get; set; }
+    public virtual Category? Category { get; set; }
+    public virtual SubCategory? SubCategory { get; set; }
+    public virtual AreaUse? AreaUse { get; set; }
 }

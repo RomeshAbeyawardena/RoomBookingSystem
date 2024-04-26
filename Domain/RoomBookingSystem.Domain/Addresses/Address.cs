@@ -18,4 +18,7 @@ public class Address
     public decimal? Latitude { get; set; }
     public decimal? Longitude { get; set; }
     public string? What3Words { get; set; }
+
+    public virtual Regions.Region? Region { get; set; }
+    public virtual SubRegions.SubRegion? SubRegion { get; set; }
 }

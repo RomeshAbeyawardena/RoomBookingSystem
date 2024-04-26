@@ -15,8 +15,8 @@ namespace RoomBookingSystem.Domain.Areas
         public string? Notes { get; set; }
         public Guid? WorkNoticeId { get; set; }
 
-        public Area? Area { get; set; }
-        public Contacts.Contact? ApprovedByContact { get; set; }
-        public WorkNotices.WorkNotice? WorkNotice { get; set; }
+        public virtual Area? Area { get; set; }
+        public virtual Contacts.Contact? ApprovedByContact { get; set; }
+        public virtual WorkNotices.WorkNotice? WorkNotice { get; set; }
     }
 }
