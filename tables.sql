@@ -495,7 +495,7 @@ CREATE TABLE Package (
     Description NVARCHAR(255)
 );
 
-CREATE TABLE PackageClient (
+CREATE TABLE ClientPackage (
     ID UNIQUEIDENTIFIER NOT NULL
         CONSTRAINT PK_PackageClientFee PRIMARY KEY,
     PackageId UNIQUEIDENTIFIER NOT NULL,
