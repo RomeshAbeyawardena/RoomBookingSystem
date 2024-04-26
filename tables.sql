@@ -283,6 +283,19 @@ CREATE TABLE Client (
     FOREIGN KEY (PrimaryAddressId) REFERENCES Address(ID)
 );
 
+CREATE TABLE ClientContact (
+    ClientId UNIQUEIDENTIFIER NOT NULL,
+    ContactId UNIQUEIDENTIFIER NOT NULL,
+    Alias NVARCHAR(100),
+    Reference NVARCHAR(100),
+    AvailableFrom TIME NULL,
+    AvailableTo TIME NULL,
+    IsRequiredOnSite BIT NOT NULL,
+    CONSTRAINT PK_ClientContact PRIMARY KEY (ClientId, ContactId),
+    FOREIGN KEY (ClientId) REFERENCES Client(ID),
+    FOREIGN KEY (ContactId) REFERENCES Contact(ID)
+);
+
 CREATE TABLE Booking (
     ID UNIQUEIDENTIFIER NOT NULL 
         CONSTRAINT PK_Booking PRIMARY KEY,
