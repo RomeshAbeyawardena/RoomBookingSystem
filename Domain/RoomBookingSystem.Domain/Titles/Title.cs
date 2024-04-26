@@ -1,4 +1,4 @@
-﻿namespace RoomBookingSystem.Domain.Title;
+﻿namespace RoomBookingSystem.Domain.Titles;
 
 public class Title
 {

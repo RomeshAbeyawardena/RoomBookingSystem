@@ -9,4 +9,6 @@ public class ContactEmail
     public bool IsInUse { get; set; }
     public DateTimeOffset? ValidFrom { get; set; }
     public DateTimeOffset? ValidTo { get; set; }
+
+    public virtual Contact? Contact { get; set; }
 }

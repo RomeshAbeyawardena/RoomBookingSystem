@@ -15,8 +15,8 @@ namespace RoomBookingSystem.Domain.Sites
         public Guid? WorkNoticeId { get; set; }
 
         // Navigation properties
-        public Site? Site { get; set; }
-        public Contacts.Contact? ApprovedByContact { get; set; }
-        public WorkNotices.WorkNotice? WorkNotice { get; set; }
+        public virtual Site? Site { get; set; }
+        public virtual Contacts.Contact? ApprovedByContact { get; set; }
+        public virtual WorkNotices.WorkNotice? WorkNotice { get; set; }
     }
 }

@@ -9,6 +9,6 @@ namespace RoomBookingSystem.Domain.Clients
         public string? Name { get; set; }
         public string? ExternalReference { get; set; }
         public Guid? PrimaryAddressId { get; set; }
-        public Addresses.Address? PrimaryAddress { get; set; }
+        public virtual Addresses.Address? PrimaryAddress { get; set; }
     }
 }

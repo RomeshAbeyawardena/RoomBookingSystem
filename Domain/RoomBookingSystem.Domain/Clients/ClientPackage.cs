@@ -13,7 +13,7 @@ namespace RoomBookingSystem.Domain.Clients
         public int? MaximumBookingsPerTerm { get; set; }
         public bool IsGivenPriority { get; set; }
         public string? ContractTerms { get; set; }
-        public Client? Client { get; set; }
-        public Packages.Package? Package { get; set; }
+        public virtual Client? Client { get; set; }
+        public virtual Packages.Package? Package { get; set; }
     }
 }

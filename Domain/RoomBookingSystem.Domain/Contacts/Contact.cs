@@ -13,4 +13,6 @@ public class Contact
     public string? JobTitle { get; set; }
     public string? Department { get; set; }
     public string? ContactNumber { get; set; }
+
+    public virtual Titles.Title? Title { get; set; }
 }

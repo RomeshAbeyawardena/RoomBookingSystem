@@ -16,10 +16,10 @@ namespace RoomBookingSystem.Domain.Assets
         public DateTimeOffset? Verified { get; set; }
 
         // Navigation properties
-        public Equipment? PreviousEquipmentLocation { get; set; }
-        public Equipment? Equipment { get; set; }
-        public Sites.Site? Site { get; set; }
-        public Blocks.Block? Block { get; set; }
-        public Areas.Area? Area { get; set; }
+        public virtual Equipment? PreviousEquipmentLocation { get; set; }
+        public virtual Equipment? Equipment { get; set; }
+        public virtual Sites.Site? Site { get; set; }
+        public virtual Blocks.Block? Block { get; set; }
+        public virtual Areas.Area? Area { get; set; }
     }
 }

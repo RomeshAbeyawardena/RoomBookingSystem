@@ -7,5 +7,5 @@ public class County
     public string? Name { get; set; }
     public string? Reference { get; set; }
     public Guid CountryId { get; set; }
-    public Countries.Country? Country { get; set; }
+    public virtual Countries.Country? Country { get; set; }
 }

@@ -9,4 +9,8 @@ public class BlockUse
     public string? Description { get; set; }
     public string? Reference { get; set; }
     public string? ExternalReference { get; set; }
+
+    public virtual Block? Block { get; set; }
+    public virtual Categories.Category? Category { get; set; }
+    public virtual Categories.SubCategory? SubCategory { get; set; }
 }

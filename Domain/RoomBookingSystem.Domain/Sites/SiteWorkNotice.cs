@@ -11,7 +11,7 @@ namespace RoomBookingSystem.Domain.Sites
         // Add any additional properties or methods as needed
         
         // You can also define navigation properties for the foreign keys if required
-        public Site? Site { get; set; }
-        public WorkNotices.WorkNotice? WorkNotice { get; set; }
+        public virtual Site? Site { get; set; }
+        public virtual WorkNotices.WorkNotice? WorkNotice { get; set; }
     }
 }

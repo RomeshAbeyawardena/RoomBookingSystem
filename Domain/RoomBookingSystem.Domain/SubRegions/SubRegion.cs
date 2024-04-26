@@ -6,5 +6,5 @@ public class SubRegion
     public string? Name { get; set; }
     public string? Reference { get; set; }
     public Guid RegionId { get; set; }
-    public Regions.Region? Region { get; set; }
+    public virtual Regions.Region? Region { get; set; }
 }

@@ -22,8 +22,8 @@ namespace RoomBookingSystem.Domain.Assets
         public Guid SupplierId { get; set; }
         public Guid? WarrantySupplierId { get; set; }
 
-        public Classifications.Classification? Classification { get; set; }
-        public Suppliers.Supplier? Supplier { get; set; }
-        public Suppliers.Supplier? WarrantySupplier { get; set; }
+        public virtual Classifications.Classification? Classification { get; set; }
+        public virtual Suppliers.Supplier? Supplier { get; set; }
+        public virtual Suppliers.Supplier? WarrantySupplier { get; set; }
     }
 }

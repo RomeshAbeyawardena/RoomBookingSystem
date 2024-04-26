@@ -14,8 +14,8 @@ namespace RoomBookingSystem.Domain.Blocks
         public DateTimeOffset? FulfillmentDate { get; set; }
 
         // Navigation properties
-        public Bookings.Booking? Booking { get; set; }
-        public Block? Block { get; set; }
-        public Contacts.Contact? ApprovedByContact { get; set; }
+        public virtual Bookings.Booking? Booking { get; set; }
+        public virtual Block? Block { get; set; }
+        public virtual Contacts.Contact? ApprovedByContact { get; set; }
     }
 }

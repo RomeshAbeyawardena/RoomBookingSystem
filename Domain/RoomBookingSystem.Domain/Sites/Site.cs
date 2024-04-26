@@ -9,5 +9,5 @@ public class Site
     public string? Name { get; set; }
     public string? ExternalReference { get; set; }
     public Guid PrimaryAddressId { get; set; }
-    public Address? PrimaryAddress { get; set; }
+    public virtual Address? PrimaryAddress { get; set; }
 }

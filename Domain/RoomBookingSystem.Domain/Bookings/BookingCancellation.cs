@@ -12,8 +12,8 @@ namespace RoomBookingSystem.Domain.Bookings
         public Guid? ApprovedByContactId { get; set; }
         public DateTimeOffset? ApprovalDate { get; set; }
 
-        public Booking? Booking { get; set; }
-        public Contacts.Contact? CancelledByContact { get; set; }
-        public Contacts.Contact? ApprovedByContact { get; set; }
+        public virtual Booking? Booking { get; set; }
+        public virtual Contacts.Contact? CancelledByContact { get; set; }
+        public virtual Contacts.Contact? ApprovedByContact { get; set; }
     }
 }

@@ -6,5 +6,5 @@ public class Region
     public string? Name { get; set; }
     public string? Reference { get; set; }
     public Guid CountyId { get; set; }
-    public Counties.County? County { get; set; }
+    public virtual Counties.County? County { get; set; }
 }

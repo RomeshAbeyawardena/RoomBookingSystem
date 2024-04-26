@@ -8,6 +8,6 @@ namespace RoomBookingSystem.Domain.Classifications
         public string? Name { get; set; }
         public string? DisplayName { get; set; }
         public Guid? ParentClassificationId { get; set; }
-        public Classification? ParentClassification { get; set; }
+        public virtual Classification? ParentClassification { get; set; }
     }
 }

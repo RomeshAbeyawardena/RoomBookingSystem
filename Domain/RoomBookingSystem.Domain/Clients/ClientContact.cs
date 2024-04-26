@@ -13,7 +13,7 @@ namespace RoomBookingSystem.Domain.Clients
         public bool IsRequiredOnSite { get; set; }
 
         // Navigation properties
-        public Client? Client { get; set; }
-        public Contacts.Contact? Contact { get; set; }
+        public virtual Client? Client { get; set; }
+        public virtual Contacts.Contact? Contact { get; set; }
     }
 }

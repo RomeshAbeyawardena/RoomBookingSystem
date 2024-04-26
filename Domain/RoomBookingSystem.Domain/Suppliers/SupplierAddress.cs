@@ -9,7 +9,7 @@ namespace RoomBookingSystem.Domain.Suppliers
         public Guid AddressId { get; set; }
         public string? Alias { get; set; }
 
-        public Supplier? Supplier { get; set; }
-        public Addresses.Address? Address { get; set; }
+        public virtual Supplier? Supplier { get; set; }
+        public virtual Addresses.Address? Address { get; set; }
     }
 }

@@ -18,7 +18,7 @@ namespace RoomBookingSystem.Domain.Clients
         public string? AdditionalDetails { get; set; }
 
         // Navigation properties
-        public Packages.Package? Package { get; set; }
-        public Bookings.Booking? Booking { get; set; }
+        public virtual Packages.Package? Package { get; set; }
+        public virtual Bookings.Booking? Booking { get; set; }
     }
 }

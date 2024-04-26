@@ -8,4 +8,7 @@ public class SiteContact
     public string? Alias { get; set; }
     public TimeSpan? AvailableFrom { get; set; }
     public TimeSpan? AvailableUntil { get; set; }
+
+    public virtual Site? Site { get; set; }
+    public virtual Contacts.Contact? Contact { get; set; }
 }

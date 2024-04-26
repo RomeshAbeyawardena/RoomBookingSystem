@@ -16,8 +16,8 @@ namespace RoomBookingSystem.Domain.Blocks
         public Guid? WorkNoticeId { get; set; }
 
         // Navigation properties
-        public Block? Block { get; set; }
-        public Contacts.Contact? ApprovedByContact { get; set; }
-        public WorkNotices.WorkNotice? WorkNotice { get; set; }
+        public virtual Block? Block { get; set; }
+        public virtual Contacts.Contact? ApprovedByContact { get; set; }
+        public virtual WorkNotices.WorkNotice? WorkNotice { get; set; }
     }
 }

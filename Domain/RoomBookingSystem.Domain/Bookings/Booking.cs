@@ -16,8 +16,8 @@ namespace RoomBookingSystem.Domain.Bookings
         public string? Details { get; set; }
 
         // Navigation properties
-        public Contacts.Contact? RequestContact { get; set; }
-        public Contacts.Contact? ApprovedByContact { get; set; }
-        public Clients.Client? Client { get; set; }
+        public virtual Contacts.Contact? RequestContact { get; set; }
+        public virtual Contacts.Contact? ApprovedByContact { get; set; }
+        public virtual Clients.Client? Client { get; set; }
     }
 }
